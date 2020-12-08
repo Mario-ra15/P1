@@ -1,4 +1,4 @@
-package com.company;
+package Batallas;
 
 public class Main {
 
