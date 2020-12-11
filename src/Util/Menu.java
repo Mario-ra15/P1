@@ -18,6 +18,7 @@ public class Menu {
         System.out.println("Phases: 3");//maybe aqui es pot posar un phases.size
         System.out.println("Currently: "+ "rappers.size\n");
         System.out.println("Competition"+"booleano"+"Do you want to:\n");
+
     }
 
 }
