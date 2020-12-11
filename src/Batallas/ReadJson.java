@@ -29,4 +29,16 @@ public class ReadJson {
             e.printStackTrace();
         }
     }
+
+    public LinkedList<String> getCountries() {
+        return countries;
+    }
+
+    public LinkedList<Rappers> getRappers() {
+        return rappers;
+    }
+
+    public LinkedList<Competition> getCompetition() {
+        return competition;
+    }
 }
