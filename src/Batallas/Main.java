@@ -1,4 +1,5 @@
 package Batallas;
+import Util.Menu;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,8 +12,9 @@ public class Main {
     public static void main(String[] args) {
         ReadJson data = new ReadJson();
         data.readJson();
-        System.out.println(data.getCountries());
-        System.out.println(data.getCompetition());
+
+        Menu menu = new Menu( );
+        menu.optionMenu();
 
     }
 }
