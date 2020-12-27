@@ -1,4 +1,4 @@
-package util;
+package Util;
 import database.competitions.Rapper;
 import database.competitions.Root;
 
@@ -21,6 +21,7 @@ public class Menu {
     private int level;
     private String photo;
     private String state = null;
+    private Rapper rapper;
     
 
     public void printMenu(Root competitions) throws ParseException {
@@ -74,7 +75,7 @@ public class Menu {
 
             if (actualDate.before(competitions.getCompetition().getStartDate())) {
                 state = "before";
-            } else if (actualDate.after(competitions.getCompetition().getEndDate())){
+            } else if (actualDate.before(competitions.getCompetition().getEndDate())){ // no entra aquest menu. no detecta les dates
                 state = "after";
             } else {
                 state = "current";
@@ -95,7 +96,20 @@ public class Menu {
                     } while (!validOption());
                     break;
                 case "current":
-
+                    System.out.println("Competition started. Do you want to:\n\n 1.Login\n2.Leave\n");
+                    do {
+                        askForOption();
+                        switch (getOption()) {
+                            case 1:
+                                System.out.println("Enter your artistic name:");
+                                artisticName = "";
+                                artisticName = ScannerInput.askString(); //es pot fer servir la mateixa variable no? el regsitre aqui ya no el fem servir, potsre inicialitzar a 0 abans?
+                                comprovaLogin(competitions, artisticName);
+                                break;
+                            case 2:
+                                break;
+                        }
+                    } while (!validOption());
                     break;
                 case "after":
                     System.out.println("The winner is...");
@@ -125,7 +139,17 @@ public class Menu {
         System.out.println("-----------------------------------------");
     }
 
-    public void comprovaLogin(Root competitions) {
+    /**
+     * demana el nom del artista y comprova que existeixi.
+     */
+    public void comprovaLogin(Root competitions, String artisticName) {
+        for(int i =0; i < competitions.getRappers().size(); i++){
+            if(competitions.getRappers().get(i).getStageName().equals(artisticName)){
+              return;
+            }else{
+                System.out.println("Yo'bro, there's no" + artisticName +" in ma' list.");
+            }
 
+        }
     }
 }

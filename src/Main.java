@@ -1,7 +1,7 @@
 import database.battles.Root;
 import database.battles.Theme;
 import database.competitions.ReadJson;
-import util.Menu;
+import Util.Menu;
 
 import java.text.ParseException;
 
@@ -14,7 +14,6 @@ public class Main {
         batalles = database.battles.ReadJson.jsonToClass();
         database.competitions.Root competicions;
         competicions = database.competitions.ReadJson.jsonToClass();
-        System.out.println("he");
 
         menu.optionMenu(batalles, competicions);
     }
