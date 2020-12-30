@@ -101,10 +101,12 @@ public class Menu {
                         askForOption();
                         switch (getOption()) {
                             case 1:
+
                                 System.out.println("Enter your artistic name:");
                                 artisticName = "";
                                 artisticName = ScannerInput.askString(); //es pot fer servir la mateixa variable no? el regsitre aqui ya no el fem servir, potsre inicialitzar a 0 abans?
                                 comprovaLogin(competitions, artisticName);
+
                                 break;
                             case 2:
                                 break;
@@ -143,13 +145,12 @@ public class Menu {
      * demana el nom del artista y comprova que existeixi.
      */
     public void comprovaLogin(Root competitions, String artisticName) {
-        for(int i =0; i < competitions.getRappers().size(); i++){
-            if(competitions.getRappers().get(i).getStageName().equals(artisticName)){
-              return;
-            }else{
-                System.out.println("Yo'bro, there's no" + artisticName +" in ma' list.");
-            }
 
+        for(int i =0; i < competitions.getRappers().size(); i++){
+                if (competitions.getRappers().get(i).getStageName().equals(artisticName)) {
+                    break;
+                }
         }
+        System.out.println("Yo'bro, there's no" + artisticName +" in ma' list.\n");
     }
 }
