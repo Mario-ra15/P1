@@ -22,7 +22,7 @@ public class Menu {
     private String photo;
     private String state = null;
     private Rapper rapper;
-    
+    private Boolean error;
 
     public void printMenu(Root competitions) throws ParseException {
         System.out.println(" ");
@@ -32,6 +32,20 @@ public class Menu {
         System.out.println("Ends on " + competitions.getCompetition().getEndDate());
         System.out.println("Phases: " + competitions.getCompetition().getPhase().size());//maybe aqui es pot posar un phases.size
         System.out.println("Currently: " + competitions.getRappers().size() + " participants\n");
+    }
+
+    public void printCompMenu(Root competitions) throws ParseException{
+        System.out.println("");
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.print("Phase: " + "X | ");
+        System.out.print("Score: " + "X | ");
+        System.out.print("Battle " + "X : " + "X |");
+        System.out.print("Rival: " + "X\n");
+        System.out.println("----------------------------------------------------------------------------------------------------\n\n");
+        System.out.println("1.Start the battle");
+        System.out.println("2.Show ranking");
+        System.out.println("3.Create profile");
+        System.out.println("Leave competition\n");
     }
 
     /**
@@ -85,7 +99,6 @@ public class Menu {
                 case "before":
                     System.out.println("\nCompetition hasn't started yet. Do you want to:\n\n1.Register\n2.Leave\n");
                     do {
-                        askForOption();
                         switch (getOption()) {
                             case 1:
                                 registre(competitions);
@@ -96,7 +109,7 @@ public class Menu {
                     } while (!validOption());
                     break;
                 case "current":
-                    System.out.println("Competition started. Do you want to:\n\n 1.Login\n2.Leave\n");
+                    System.out.println("Competition started. Do you want to:\n\n1.Login\n2.Leave\n");
                     do {
                         askForOption();
                         switch (getOption()) {
@@ -105,8 +118,8 @@ public class Menu {
                                 System.out.println("Enter your artistic name:");
                                 artisticName = "";
                                 artisticName = ScannerInput.askString(); //es pot fer servir la mateixa variable no? el regsitre aqui ya no el fem servir, potsre inicialitzar a 0 abans?
-                                comprovaLogin(competitions, artisticName);
-
+                                error = comprovaLogin(competitions, artisticName);
+                                if (error) Startmenu(batalles, competitions);
                                 break;
                             case 2:
                                 break;
@@ -144,13 +157,42 @@ public class Menu {
     /**
      * demana el nom del artista y comprova que existeixi.
      */
-    public void comprovaLogin(Root competitions, String artisticName) {
+    public boolean comprovaLogin(Root competitions, String artisticName) {
 
         for(int i =0; i < competitions.getRappers().size(); i++){
                 if (competitions.getRappers().get(i).getStageName().equals(artisticName)) {
-                    break;
+
+                    return true;
                 }
         }
-        System.out.println("Yo'bro, there's no" + artisticName +" in ma' list.\n");
+        System.out.println("Yo'bro, there's no " + artisticName +" in ma' list.\n");
+        return false;
+    }
+
+    public void Startmenu (database.battles.Root batalles, Root competitions) throws ParseException{
+        printCompMenu(competitions);
+        do {
+            askForOption();
+            switch (getOption()) {
+                case 1:
+
+                    System.out.println("Empieza la battle");
+                    break;
+
+                case 2:
+                    System.out.println("Quieres ver el ranking");
+                    break;
+
+                case 3:
+                    System.out.println("Quieres crear perfil");
+                    break;
+
+                case 4:
+                    break;
+            }
+
+        } while (!validOption());
+
+
     }
 }
