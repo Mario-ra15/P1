@@ -6,12 +6,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+
 
 public class Menu {
     private static final int MIN = 1;
     private static final int MAX = 2;
-    
+    private static final int MAX2 = 4;
+
     private int opcio;
+    private int index;
+    private int indexRival;
+    private int currentPhase = 0;
     private String aux;
 
     private String nom;
@@ -22,7 +31,7 @@ public class Menu {
     private String photo;
     private String state = null;
     private Rapper rapper;
-    private Boolean error;
+
 
     public void printMenu(Root competitions) throws ParseException {
         System.out.println(" ");
@@ -34,26 +43,20 @@ public class Menu {
         System.out.println("Currently: " + competitions.getRappers().size() + " participants\n");
     }
 
-    public void printCompMenu(Root competitions) throws ParseException{
-        System.out.println("");
-        System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.print("Phase: " + "X | ");
-        System.out.print("Score: " + "X | ");
-        System.out.print("Battle " + "X : " + "X |");
-        System.out.print("Rival: " + "X\n");
-        System.out.println("----------------------------------------------------------------------------------------------------\n\n");
-        System.out.println("1.Start the battle");
-        System.out.println("2.Show ranking");
-        System.out.println("3.Create profile");
-        System.out.println("Leave competition\n");
-    }
-
     /**
      * mira si la opcio es la de sortir
      * @return boolea que confirma si surt o no
      */
     public boolean exit() {
         return opcio == MAX;
+    }
+
+    /**
+     * mira si la opcio es la de sortir
+     * @return boolea que confirma si surt o no
+     */
+    public boolean exit2() {
+        return opcio == MAX2;
     }
 
     /**
@@ -80,6 +83,9 @@ public class Menu {
     public boolean validOption() {
         return opcio >= MIN && opcio <= MAX;
     }
+    public boolean validOption2() {
+        return opcio >= MIN && opcio <= MAX2;
+    }
 
     public void optionMenu(database.battles.Root batalles, Root competitions) throws ParseException {
         printMenu(competitions);
@@ -99,6 +105,7 @@ public class Menu {
                 case "before":
                     System.out.println("\nCompetition hasn't started yet. Do you want to:\n\n1.Register\n2.Leave\n");
                     do {
+                        askForOption();
                         switch (getOption()) {
                             case 1:
                                 registre(competitions);
@@ -109,17 +116,21 @@ public class Menu {
                     } while (!validOption());
                     break;
                 case "current":
-                    System.out.println("Competition started. Do you want to:\n\n1.Login\n2.Leave\n");
                     do {
+                        System.out.println("\nCompetition started. Do you want to:\n\n1.Login\n2.Leave\n");
                         askForOption();
                         switch (getOption()) {
                             case 1:
-
                                 System.out.println("Enter your artistic name:");
                                 artisticName = "";
                                 artisticName = ScannerInput.askString(); //es pot fer servir la mateixa variable no? el regsitre aqui ya no el fem servir, potsre inicialitzar a 0 abans?
-                                error = comprovaLogin(competitions, artisticName);
-                                if (error) Startmenu(batalles, competitions);
+                                index = comprovaLogin(competitions, artisticName);
+                                if (index != -1) {
+                                    indexRival = generaParelles(competitions, index);
+                                    enterLobby(competitions, batalles, index, indexRival);
+                                } else {
+                                    System.out.println("Yo'bro, there's no " + artisticName + " in ma' list.\n");
+                                }
                                 break;
                             case 2:
                                 break;
@@ -130,8 +141,109 @@ public class Menu {
                     System.out.println("The winner is...");
                     break;
             }
-        }while (!exit());
+        } while(!exit());
     }
+
+    private int generaParelles(Root competitions, int index) {
+        int indexRival = 0;
+        int numero = index;
+        if (competitions.getRappers().size() % 2 != 0) {
+            while (numero == index) {
+                Random rn = new Random();
+                int n = competitions.getRappers().size() + 1;
+                numero = rn.nextInt() % n;
+            }
+            competitions.getRappers().remove(numero);
+        }
+        for (int i = 0; i < competitions.getRappers().size(); i++) {
+            //algo per emparellar que encara no tinc clar
+        }
+        return indexRival;
+    }
+
+    private void enterLobby(Root competitions, database.battles.Root batalles, int index, int indexRival) {
+        int currentPhase = 1, currentBattle = 1;
+        String guanyador = null;
+        boolean finalitzat = false;
+        String tipusBatalla = getTipusBatalla();
+        do {
+            if (!finalitzat) {
+                System.out.println("------------------------------------------------------------");
+                System.out.println("Phase: " + currentPhase + "/" + competitions.getCompetition().getPhase().size() + " | Score: " + competitions.getRappers().get(index).getScore() + " | Battle " + currentBattle + "/2: " + tipusBatalla + " | Rival: " + competitions.getRappers().get(indexRival).getStageName() + "");
+                System.out.println("------------------------------------------------------------");
+                System.out.println("\n1.Start the battle\n2.Show ranking\n3.Create profile\n4.Leave competition\n");
+            } else {
+                System.out.println("------------------------------------------------------------");
+                if (competitions.getRappers().get(index).getStageName() == guanyador) {
+                    System.out.println("Winner: " + guanyador + " | Score: " + competitions.getRappers().get(index).getScore() + " | YOU WIN!!!! ");
+                } else {
+                    System.out.println("Winner: " + guanyador + " | Score: " + competitions.getRappers().get(index).getScore() + " | You've lost kid, I'm sure you'll do better next time...");
+
+                }
+                System.out.println("------------------------------------------------------------");
+                System.out.println("\n1.Start the battle (deactivated)\n2.Show ranking\n3.Create profile\n4.Leave competition\n");
+            }
+            askForOption();
+            switch (getOption()) {
+                case 1:
+                    //aqui generem la batalla i aixo
+                    //aixo es per canviar de fase i de batalla
+                    System.out.println("skr");
+                    if (!finalitzat) {
+                        if (currentPhase < competitions.getCompetition().getPhase().size() && currentBattle == 2) {
+                            currentPhase++;
+                            currentBattle = 1;
+                        } else if (currentPhase == competitions.getCompetition().getPhase().size() && currentBattle == 2) {
+                            finalitzat = true;
+                        } else {
+                            currentBattle++;
+                        }
+                        tipusBatalla = getTipusBatalla();
+                    } else {
+                        System.out.println("\nCompetition ended. You cannot battle anyone else!\n");
+                    }
+                    break;
+                case 2:
+                    showRanking(competitions, index);
+                    break;
+                case 3:
+                    //aixo es fa a la fase 3 i 4 jej
+                    break;
+                case 4:
+                    break;
+            }
+        } while (!exit2());
+    }
+
+    private void showRanking(Root competitions, int index) {
+        LinkedList<Rapper> orderedRappers;
+        orderedRappers = competitions.getRappers();
+        orderedRappers.sort(Comparator.comparingInt(Rapper::getScore)); //aixo no tinc ni idea de si funciona, lo veremos mas tarde
+        for (int i = 0; i < orderedRappers.size(); i++) {
+            if (i == index) {
+                System.out.println((i+1) + ". " + orderedRappers.get(i).getStageName() + " - " + orderedRappers.get(i).getScore() + " <-- You");
+            } else {
+                System.out.println((i+1) + ". " + orderedRappers.get(i).getStageName() + " - " + orderedRappers.get(i).getScore());
+            }
+        }
+    }
+
+    private String getTipusBatalla() {
+        Random rn = new Random();
+        int numero = rn.nextInt(3) + 1;
+        String tipusBatalla = null;
+        switch (numero) {
+            case 1:
+                //aixo no tinc ni idea de per que es posa gris, si el nombre es random en fi
+                tipusBatalla = "sangre";
+            case 2:
+                tipusBatalla = "acapella";
+            case 3:
+                tipusBatalla = "escrita";
+        }
+        return tipusBatalla;
+    }
+
     public void registre(Root competitions){
         System.out.println("-----------------------------------------");
         System.out.println("Please, enter your personal information:");
@@ -157,42 +269,12 @@ public class Menu {
     /**
      * demana el nom del artista y comprova que existeixi.
      */
-    public boolean comprovaLogin(Root competitions, String artisticName) {
-
-        for(int i =0; i < competitions.getRappers().size(); i++){
+    public int comprovaLogin(Root competitions, String artisticName) {
+        for(int i = 0; i < competitions.getRappers().size(); i++){
                 if (competitions.getRappers().get(i).getStageName().equals(artisticName)) {
-
-                    return true;
+                    return i;
                 }
         }
-        System.out.println("Yo'bro, there's no " + artisticName +" in ma' list.\n");
-        return false;
-    }
-
-    public void Startmenu (database.battles.Root batalles, Root competitions) throws ParseException{
-        printCompMenu(competitions);
-        do {
-            askForOption();
-            switch (getOption()) {
-                case 1:
-
-                    System.out.println("Empieza la battle");
-                    break;
-
-                case 2:
-                    System.out.println("Quieres ver el ranking");
-                    break;
-
-                case 3:
-                    System.out.println("Quieres crear perfil");
-                    break;
-
-                case 4:
-                    break;
-            }
-
-        } while (!validOption());
-
-
+        return -1;
     }
 }
