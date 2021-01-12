@@ -29,6 +29,7 @@ public class Menu {
     private String country;
     private int level;
     private String photo;
+    private String tipusBatalla = null;
     private String state = null;
     private Rapper rapper;
 
@@ -123,7 +124,7 @@ public class Menu {
                             case 1:
                                 System.out.println("Enter your artistic name:");
                                 artisticName = "";
-                                artisticName = ScannerInput.askString(); //es pot fer servir la mateixa variable no? el regsitre aqui ya no el fem servir, potsre inicialitzar a 0 abans?
+                                artisticName = ScannerInput.askString();
                                 index = comprovaLogin(competitions, artisticName);
                                 if (index != -1) {
                                     indexRival = generaParelles(competitions, index);
@@ -147,25 +148,45 @@ public class Menu {
     private int generaParelles(Root competitions, int index) {
         int indexRival = 0;
         int numero = index;
+        // si son imparells borra un
         if (competitions.getRappers().size() % 2 != 0) {
             while (numero == index) {
                 Random rn = new Random();
                 int n = competitions.getRappers().size() + 1;
                 numero = rn.nextInt() % n;
             }
+            System.out.println(competitions.getRappers().get(numero).getStageName());
             competitions.getRappers().remove(numero);
         }
+        int nbatalles = competitions.getRappers().size()/2;
+        String parelles [][] = new String [nbatalles][2];
         for (int i = 0; i < competitions.getRappers().size(); i++) {
-            //algo per emparellar que encara no tinc clar
+        // recorrerem el vector y a cada posicio el ficarem a una posicio random de la matriu.
+            int fila = (int) (Math.random()*nbatalles);
+            int columna = (int) (Math.random()*2);
+            while(parelles[fila][columna].isEmpty() == false){
+                    fila = (int) (Math.random()*nbatalles);
+                 columna = (int) (Math.random()*2);
+            }
+            parelles[fila][columna] = competitions.getRappers().get(i).getStageName();
+        }
+        for (int m = 0; m < parelles.length; m++) {
+            for (int n = 0; n < parelles[n].length; n++) {
+                System.out.print(parelles[m][n] + " ");
+            }
+
         }
         return indexRival;
     }
+
+
 
     private void enterLobby(Root competitions, database.battles.Root batalles, int index, int indexRival) {
         int currentPhase = 1, currentBattle = 1;
         String guanyador = null;
         boolean finalitzat = false;
         String tipusBatalla = getTipusBatalla();
+        System.out.println(tipusBatalla);
         do {
             if (!finalitzat) {
                 System.out.println("------------------------------------------------------------");
@@ -186,16 +207,20 @@ public class Menu {
             askForOption();
             switch (getOption()) {
                 case 1:
+
                     //aqui generem la batalla i aixo
                     //aixo es per canviar de fase i de batalla
                     System.out.println("skr");
                     if (!finalitzat) {
                         if (currentPhase < competitions.getCompetition().getPhase().size() && currentBattle == 2) {
+
                             currentPhase++;
                             currentBattle = 1;
                         } else if (currentPhase == competitions.getCompetition().getPhase().size() && currentBattle == 2) {
                             finalitzat = true;
                         } else {
+                            //doBattlee();
+
                             currentBattle++;
                         }
                         tipusBatalla = getTipusBatalla();
@@ -231,10 +256,9 @@ public class Menu {
     private String getTipusBatalla() {
         Random rn = new Random();
         int numero = rn.nextInt(3) + 1;
-        String tipusBatalla = null;
+
         switch (numero) {
             case 1:
-                //aixo no tinc ni idea de per que es posa gris, si el nombre es random en fi
                 tipusBatalla = "sangre";
             case 2:
                 tipusBatalla = "acapella";
