@@ -20,6 +20,7 @@ public class Menu {
     private int opcio;
     private int index;
     private int indexRival;
+    private int indexPersona;
     private int currentPhase = 0;
     private String aux;
 
@@ -129,6 +130,7 @@ public class Menu {
                                 if (index != -1) {
                                     indexRival = generaParelles(competitions, index);
                                     enterLobby(competitions, batalles, index, indexRival);
+
                                 } else {
                                     System.out.println("Yo'bro, there's no " + artisticName + " in ma' list.\n");
                                 }
@@ -148,6 +150,7 @@ public class Menu {
     private int generaParelles(Root competitions, int index) {
         int indexRival = 0;
         int numero = index;
+        String rival = "";
         // si son imparells borra un
         if (competitions.getRappers().size() % 2 != 0) {
             while (numero == index) {
@@ -158,24 +161,45 @@ public class Menu {
             System.out.println(competitions.getRappers().get(numero).getStageName());
             competitions.getRappers().remove(numero);
         }
+
+        //Generem les parelles
         int nbatalles = competitions.getRappers().size()/2;
         String parelles [][] = new String [nbatalles][2];
         for (int i = 0; i < competitions.getRappers().size(); i++) {
-        // recorrerem el vector y a cada posicio el ficarem a una posicio random de la matriu.
+        // recorrerem el vector, per a cada posicio generem una posicio random de la matriu i si esta buit s omple
             int fila = (int) (Math.random()*nbatalles);
             int columna = (int) (Math.random()*2);
-            while(parelles[fila][columna].isEmpty() == false){
+            while(parelles[fila][columna] != null){
                     fila = (int) (Math.random()*nbatalles);
                  columna = (int) (Math.random()*2);
             }
             parelles[fila][columna] = competitions.getRappers().get(i).getStageName();
         }
-        for (int m = 0; m < parelles.length; m++) {
-            for (int n = 0; n < parelles[n].length; n++) {
-                System.out.print(parelles[m][n] + " ");
+        //Busquem el nostre rival
+
+        for (int i = 0; i < parelles.length; i++) {
+            for (int j = 0; j < parelles[i].length; j++) {
+                if (parelles[i][j]==competitions.getRappers().get(numero).getStageName()){
+                    if(j==0){
+                        rival = parelles[i][1];
+                    }else {
+                        rival = parelles[i][0];
+                    }
+                }
+            }
+        }
+
+        //busquem l index del rival
+        for (int i = 0; i < competitions.getRappers().size(); i++) {
+            if (competitions.getRappers().get(i).getStageName()== rival){
+                indexRival = i;
             }
 
         }
+
+        // Aqui simulem les batalles, sumem els punts y borrem els que perden.
+        simulaBatalla( parelles);
+
         return indexRival;
     }
 
@@ -267,6 +291,27 @@ public class Menu {
         }
         return tipusBatalla;
     }
+
+    public void simulaBatalla(String[][] parelles){
+        for (int i = 0; i < parelles.length; i++) {
+            for (int j = 0; j < parelles[i].length; j++) {
+                System.out.print(parelles[i][j] + " ");
+            }
+            System.out.println();
+        }
+        //agafem les parelles
+        for (int i = 0; i < parelles.length; i++) {
+            int primer = generaPrimer();
+
+        }
+
+    }
+
+    public int generaPrimer(){
+        int primer = (int) (Math.random()*2);
+        return primer;
+    }
+
 
     public void registre(Root competitions){
         System.out.println("-----------------------------------------");
