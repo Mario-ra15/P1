@@ -1,6 +1,7 @@
 package database.battles;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Theme {
     private String name;
@@ -21,4 +22,12 @@ public class Theme {
     public void setRhymes(LinkedList<Rhyme> rhymes) {
         this.rhymes = rhymes;
     }
+
+    /*public String generaTema(database.battles.Root batalles){
+        String tema ;
+        Random rn = new Random();
+        int numero = rn.nextInt( )+ 1;
+
+        return tema;
+    }*/
 }

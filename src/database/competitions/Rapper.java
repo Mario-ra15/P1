@@ -17,6 +17,9 @@ public class Rapper {
         this.level = level;
         this.photo = photo;
     }
+    public Rapper(){
+
+    }
 
     public String getRealName() {
         return realName;

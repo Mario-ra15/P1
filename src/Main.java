@@ -17,6 +17,7 @@ public class Main {
         database.competitions.Root competicions;
         competicions = database.competitions.ReadJson.jsonToClass();
 
+
         menu.optionMenu(batalles,competicions);
 
     }
