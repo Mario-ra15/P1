@@ -14,6 +14,7 @@ public class Main {
 
         database.battles.Root batalles;
         batalles = database.battles.ReadJson.jsonToClass();
+
         database.competitions.Root competicions;
         competicions = database.competitions.ReadJson.jsonToClass();
 

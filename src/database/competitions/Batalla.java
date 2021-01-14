@@ -51,17 +51,16 @@ public class Batalla {
 
     public void simulaBatalla(String[][] parelles,database.battles.Root batalles,Root competitions){
         String tema;
-        for (int i = 0; i < parelles.length; i++) {
-            for (int j = 0; j < parelles[i].length; j++) {
-                System.out.print(parelles[i][j] + " ");
-            }
-            System.out.println();
-        }
+        int n;
+
         //agafem les parelles
         for (int i = 0; i < parelles.length; i++) {
+
             int primer = generaPrimer();
-            //tema = theme.generaTema(batalles);
-            //a calcula punts li pasem la rima
+            tema = theme.generaTema(batalles);
+            n = theme.postema(batalles,tema);
+
+
 
 
 
