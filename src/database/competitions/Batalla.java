@@ -60,7 +60,7 @@ public class Batalla {
         //agafem les parelles
         for (int i = 0; i < parelles.length; i++) {
             int primer = generaPrimer();
-            tema = theme.generaTema(batalles);
+            //tema = theme.generaTema(batalles);
             //a calcula punts li pasem la rima
 
 
