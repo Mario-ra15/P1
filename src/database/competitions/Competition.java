@@ -49,6 +49,14 @@ public class Competition {
         this.phases = phase;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public String getArtisticName() {
+        return artisticName;
+    }
+
     public void registre(Root competitions){
         System.out.println("-----------------------------------------");
         System.out.println("Please, enter your personal information:");

@@ -51,13 +51,13 @@ public class Phase {
 
         //Generem les parelles
         int nbatalles = competitions.getRappers().size()/2;
-        String parelles [][] = new String [nbatalles][2];
-        for (int i = 0; i < competitions.getRappers().size(); i++) {
+        String parelles [][] = new String [3][2];
+        for (int i = 0; i < 6; i++) {
             // recorrerem el vector, per a cada posicio generem una posicio random de la matriu i si esta buit s omple
-            int fila = (int) (Math.random()*nbatalles);
+            int fila = (int) (Math.random()*3);
             int columna = (int) (Math.random()*2);
             while(parelles[fila][columna] != null){
-                fila = (int) (Math.random()*nbatalles);
+                fila = (int) (Math.random()*3);
                 columna = (int) (Math.random()*2);
             }
             parelles[fila][columna] = competitions.getRappers().get(i).getStageName();
@@ -83,6 +83,7 @@ public class Phase {
             }
 
         }
+
 
 
         // Aqui simulem les batalles, sumem els punts y borrem els que perden.

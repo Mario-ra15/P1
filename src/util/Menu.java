@@ -79,6 +79,7 @@ public class Menu {
                                 artisticName = ScannerInput.askString();
                                 index = controller.comprovaLogin(competitions, artisticName);
                                 if (index != -1) {
+
                                     indexRival = phase.generaParelles(competitions, index,batalles);
                                     enterLobby(competitions, batalles, index, indexRival);
 
@@ -103,7 +104,7 @@ public class Menu {
 
         String guanyador = null;
         boolean finalitzat = false;
-        batalla.GeneraTipusBatalla();
+
 
 
 
@@ -141,8 +142,8 @@ public class Menu {
                             finalitzat = true;
                         } else {
                             //doBattlee();
-
                             batalla.sumaBatalla(batalla.getCurrentBattle());
+                            //batalla.sumaBatalla(batalla.getCurrentBattle());
                         }
 
                     } else {
