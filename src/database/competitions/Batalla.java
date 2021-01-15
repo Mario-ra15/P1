@@ -5,6 +5,7 @@ import database.battles.Rhyme;
 import database.battles.Theme;
 import database.competitions.subClases.*;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Batalla {
@@ -25,6 +26,7 @@ public class Batalla {
         return currentBattle;
     }
 
+
     public void sumaBatalla(int Battle){
         currentBattle++;
     }
@@ -35,6 +37,10 @@ public class Batalla {
 
     public void setCurrentBattle(int currentBattle) {
         this.currentBattle = currentBattle;
+    }
+
+    public void setTipusBatalla(String tipusBatalla) {
+        this.tipusBatalla = tipusBatalla;
     }
 
     public void GeneraTipusBatalla() {
@@ -58,11 +64,19 @@ public class Batalla {
             case 3:
                 tipusBatalla = "escrita";
         }*/
+
     }
 
-    public void simulaBatalla(String[][] parelles,database.battles.Root batalles,Root competitions){
-
+    public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
+        System.out.println(" ");
+        System.out.println("competidores Iniciales");
+        System.out.println(" ");
+        for (int l = 0; l < competidors.size(); l++){
+            System.out.println(competidors.get(l));
+        }
         GeneraTipusBatalla();
+        String rapper1;
+        String rapper2;
         //agafem les parelles
         for (int i = 0; i < parelles.length; i++) {
 
@@ -88,11 +102,62 @@ public class Batalla {
                 double p2 = buscarimas(batalles, level2);
 
 
-            //mirem qui es el guanyador
+            //mirem qui es el guanyador y borrem l altre
+            rapper1 = parelles[i][0];
+            rapper2 = parelles[i][1];
+            //fiquem els punts de cada jugador
+            for (int n = 0; n < competitions.getRappers().size(); n++ ){
+                if ( competitions.getRappers().get(n).getStageName() == rapper1 || competitions.getRappers().get(n).getStageName() == rapper2 ){
+                    if(competitions.getRappers().get(n).getStageName() == rapper1){
+                        competitions.getRappers().get(n).setScore((competitions.getRappers().get(n).getScore()+p1));
+                    }
+                    if(competitions.getRappers().get(n).getStageName() == rapper2){
+                        competitions.getRappers().get(n).setScore((competitions.getRappers().get(n).getScore()+p2));
+                    }
+                }
 
-            //borrem de la matriu el
+            }
+
+
+
+            if (p1 > p2 ) {
+                System.out.println("ha guanyat " + rapper1);
+
+                for (int j = 0; j < competidors.size(); j++) {
+                    if (competidors.get(j).equals(rapper2)) {
+                        System.out.println(("borramos a " + rapper2));
+                        competidors.remove(j);
+                    }
+                }
+            }else if(p2 >= p1){
+                System.out.println("ha guanyat " +rapper2);
+
+                for (int j = 0; j < competidors.size(); j++) {
+                    if (competidors.get(j).equals(rapper1)) {
+                        System.out.println(("borramos a " + rapper1));
+                        competidors.remove(j);
+                    }
+                }
+            }
+
 
         }
+        System.out.println(" ");
+        System.out.println("Lista de parejas");
+        System.out.println(" ");
+        for (int m = 0; m < parelles.length; m++) {
+            for (int j = 0; j < parelles[m].length; j++) {
+                System.out.print(parelles[m][j]+" ");
+            }
+            System.out.print("\n");
+        }
+        System.out.println(" ");
+        System.out.println("competidores Finales");
+        System.out.println(" ");
+        for (int l = 0; l < competidors.size(); l++){
+            System.out.println(competidors.get(l));
+        }
+
     }
 
     private double buscarimas(database.battles.Root batalles, int level) {
@@ -118,9 +183,6 @@ public class Batalla {
         if(tipusBatalla.equals("escrita")){punts = be.calculaPunts(R);}
         if(tipusBatalla.equals("acapella")){punts = ba.calculaPunts(R);}
 
-        System.out.println("el punts");
-        System.out.println(punts);
-
         return punts;
 
     }
@@ -138,24 +200,9 @@ public class Batalla {
         n1 = rhyme.calculaRima(rima1);
         if (rima2.equals("nada")){return n1;}
         n2 = rhyme.calculaRima((rima2));
-        System.out.println(n1+n2);
         return (n1+n2);
     }
 
 
-/*
-public double calculaPunts(int n){
-        double p = (6*Math.sqrt(n)+3)/2;
-      return p ;
-    }
-    public double calculaPunts(int n){
-        return (1+3*n);
-    }
-    public double calculaPunts(int n){
 
-      double p =  ((Math.PI*Math.pow(n,2))/4);
-    return p ;
-    }
-
-*/
 }

@@ -28,6 +28,7 @@ public class Menu {
     Batalla batalla = new Batalla();
     Competition competition = new Competition();
     Theme theme = new Theme();
+    LinkedList<String> competidors = new LinkedList<String>();
 
 
     public void printMenu(Root competitions) throws ParseException {
@@ -79,8 +80,12 @@ public class Menu {
                                 artisticName = ScannerInput.askString();
                                 index = controller.comprovaLogin(competitions, artisticName);
                                 if (index != -1) {
-
-                                    indexRival = phase.generaParelles(competitions, index,batalles);
+                                    //omplim la llista de competirdors.
+                                    for(int i = 0; i < competitions.getRappers().size(); i++ ){
+                                        competidors.add(competitions.getRappers().get(i).getStageName());
+                                    }
+                                    System.out.println("hi ha "+ competidors.size());
+                                    indexRival = phase.generaParelles(competitions, index,batalles,competidors);
                                     enterLobby(competitions, batalles, index, indexRival);
 
                                 } else {
@@ -104,7 +109,7 @@ public class Menu {
 
         String guanyador = null;
         boolean finalitzat = false;
-
+        batalla.GeneraTipusBatalla();
 
 
 
@@ -114,6 +119,7 @@ public class Menu {
                 System.out.println("Phase: " + phase.getCurrentPhase() + "/" + competitions.getCompetition().getPhase().size() + " | Score: " + competitions.getRappers().get(index).getScore() + " | Battle " + batalla.getCurrentBattle() + "/2: " + batalla.getTipusBatalla() + " | Rival: " + competitions.getRappers().get(indexRival).getStageName() + "");
                 System.out.println("------------------------------------------------------------");
                 System.out.println("\n1.Start the battle\n2.Show ranking\n3.Create profile\n4.Leave competition\n");
+                System.out.println("hi ha "+ competidors.size());
             } else {
                 System.out.println("------------------------------------------------------------");
                 if (competitions.getRappers().get(index).getStageName() == guanyador) {
@@ -128,7 +134,8 @@ public class Menu {
             controller.askForOption();
             switch (controller.getOption()) {
                 case 1:
-                    batalla.GeneraTipusBatalla();
+
+
 
                     //aqui generem la batalla i aixo
                     //aixo es per canviar de fase i de batalla
@@ -138,12 +145,17 @@ public class Menu {
 
                             phase.sumaPhase(phase.getCurrentPhase());
                             batalla.setCurrentBattle(1);
+
+
+
                         } else if (phase.getCurrentPhase() == competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) {
                             finalitzat = true;
+
                         } else {
                             //doBattlee();
+                            indexRival = phase.generaParelles(competitions, index,batalles,competidors);
                             batalla.sumaBatalla(batalla.getCurrentBattle());
-                            //batalla.sumaBatalla(batalla.getCurrentBattle());
+
                         }
 
                     } else {
@@ -165,7 +177,7 @@ public class Menu {
     private void showRanking(Root competitions, int index) { //miarar on anva si a rapper o a phase.
         LinkedList<Rapper> orderedRappers;
         orderedRappers = competitions.getRappers();
-        orderedRappers.sort(Comparator.comparingInt(Rapper::getScore)); //aixo no tinc ni idea de si funciona, lo veremos mas tarde
+        orderedRappers.sort(Comparator.comparingDouble(Rapper::getScore)); //aixo no tinc ni idea de si funciona, lo veremos mas tarde
         for (int i = 0; i < orderedRappers.size(); i++) {
             if (i == index) {
                 System.out.println((i+1) + ". " + orderedRappers.get(i).getStageName() + " - " + orderedRappers.get(i).getScore() + " <-- You");

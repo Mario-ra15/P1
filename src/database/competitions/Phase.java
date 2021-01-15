@@ -1,12 +1,17 @@
 package database.competitions;
 
+import database.battles.Theme;
+
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Phase {
     private double budget;
     private String country;
     private int currentPhase = 1;
+    private String tipus;
     Batalla batalla = new Batalla();
+
 
     public int getCurrentPhase() {
         return currentPhase;
@@ -34,30 +39,31 @@ public class Phase {
 
 
 
-    public int generaParelles(Root competitions, int index,database.battles.Root batalles ) {
+    public int generaParelles(Root competitions, int index,database.battles.Root batalles,LinkedList<String> competidors ) {
+        batalla.GeneraTipusBatalla();
         int indexRival = 0;
-        int numero = index;
+        int numero = 0 ;
         String rival = "";
         // si son imparells borra un
         if (competitions.getRappers().size() % 2 != 0) {
-            while (numero == index) {
+            while (index == numero) {
                 Random rn = new Random();
-                int n = competitions.getRappers().size() + 1;
+                int n = competidors.size() +1;
                 numero = rn.nextInt() % n;
             }
-            System.out.println(competitions.getRappers().get(numero).getStageName());
-            competitions.getRappers().remove(numero);
+            System.out.println(competidors.get(numero));
+            competidors.remove(numero);
         }
 
         //Generem les parelles
-        int nbatalles = competitions.getRappers().size()/2;
-        String parelles [][] = new String [3][2];
-        for (int i = 0; i < 6; i++) {
+        int nbatalles = competidors.size()/2;
+        String parelles [][] = new String [nbatalles][2];
+        for (int i = 0; i < competidors.size(); i++) {
             // recorrerem el vector, per a cada posicio generem una posicio random de la matriu i si esta buit s omple
-            int fila = (int) (Math.random()*3);
+            int fila = (int) (Math.random()*nbatalles);
             int columna = (int) (Math.random()*2);
             while(parelles[fila][columna] != null){
-                fila = (int) (Math.random()*3);
+                fila = (int) (Math.random()*nbatalles);
                 columna = (int) (Math.random()*2);
             }
             parelles[fila][columna] = competitions.getRappers().get(i).getStageName();
@@ -87,7 +93,7 @@ public class Phase {
 
 
         // Aqui simulem les batalles, sumem els punts y borrem els que perden.
-        batalla.simulaBatalla(parelles,batalles,competitions);
+        batalla.simulaBatalla(parelles,batalles,competitions,competidors);
 
         return indexRival;
     }
