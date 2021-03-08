@@ -10,6 +10,7 @@ public class Phase {
     private String country;
     private int currentPhase = 1;
     private String tipus;
+
     Batalla batalla = new Batalla();
 
 
@@ -39,12 +40,11 @@ public class Phase {
 
 
 
-    public int generaParelles(Root competitions, int index,database.battles.Root batalles,LinkedList<String> competidors ) {
+    public String[][] generaParelles(Root competitions, int index,database.battles.Root batalles,LinkedList<String> competidors, int indexRival ) {
         batalla.GeneraTipusBatalla();
-        int indexRival = 0;
         int numero = 0 ;
         String rival = "";
-        // si son imparells borra un
+        // si son imparells borra un en principi fnciona
         if (competitions.getRappers().size() % 2 != 0) {
             while (index == numero) {
                 Random rn = new Random();
@@ -58,6 +58,8 @@ public class Phase {
         //Generem les parelles
         int nbatalles = competidors.size()/2;
         String parelles [][] = new String [nbatalles][2];
+        //posible no funcionament
+        //--------------------------------------------------------------------------------------------------------------------------------------
         for (int i = 0; i < competidors.size(); i++) {
             // recorrerem el vector, per a cada posicio generem una posicio random de la matriu i si esta buit s omple
             int fila = (int) (Math.random()*nbatalles);
@@ -82,6 +84,8 @@ public class Phase {
             }
         }
 
+        //--------------------------------------------------------------------------------------------------------------------------------
+
         //busquem l index del rival
         for (int i = 0; i < competitions.getRappers().size(); i++) {
             if (competitions.getRappers().get(i).getStageName()== rival){
@@ -91,10 +95,11 @@ public class Phase {
         }
 
 
-
-        // Aqui simulem les batalles, sumem els punts y borrem els que perden.
-        batalla.simulaBatalla(parelles,batalles,competitions,competidors);
-
-        return indexRival;
+        return parelles;
     }
+    public void bridgesb(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
+        // Aqui simulem les batalles, sumem els punts y borrem els que perden.
+        //batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+    }
+
 }

@@ -16,6 +16,8 @@ public class Batalla {
     private int level1 ;
     private int level2;
     private int n;
+    private String rapper1;
+    private String rapper2;
     Theme theme = new Theme();
     Rhyme rhyme = new Rhyme();
     Escrita be = new Escrita();
@@ -67,7 +69,7 @@ public class Batalla {
 
     }
 
-    public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
+   /* public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
         System.out.println(" ");
         System.out.println("competidores Iniciales");
         System.out.println(" ");
@@ -75,8 +77,7 @@ public class Batalla {
             System.out.println(competidors.get(l));
         }
         GeneraTipusBatalla();
-        String rapper1;
-        String rapper2;
+
         //agafem les parelles
         for (int i = 0; i < parelles.length; i++) {
 
@@ -158,7 +159,7 @@ public class Batalla {
             System.out.println(competidors.get(l));
         }
 
-    }
+    }*/
 
     private double buscarimas(database.battles.Root batalles, int level) {
         double punts = 0.0;

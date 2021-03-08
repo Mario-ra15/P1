@@ -16,6 +16,7 @@ public class Menu {
 
     private int index;
     private int indexRival;
+    private String[][] parelles;
 
 
 
@@ -85,7 +86,9 @@ public class Menu {
                                         competidors.add(competitions.getRappers().get(i).getStageName());
                                     }
                                     System.out.println("hi ha "+ competidors.size());
-                                    indexRival = phase.generaParelles(competitions, index,batalles,competidors);
+                                    //parelles = phase.generaParelles(competitions, index,batalles,competidors, indexRival);
+                                    //Entren sala
+                                    //indexRival = trobaRival(competitions, index) clase
                                     enterLobby(competitions, batalles, index, indexRival);
 
                                 } else {
@@ -110,7 +113,7 @@ public class Menu {
         String guanyador = null;
         boolean finalitzat = false;
         batalla.GeneraTipusBatalla();
-
+        //aqui es simulen les batalles
 
 
         do {
@@ -152,8 +155,12 @@ public class Menu {
                             finalitzat = true;
 
                         } else {
+                            // Aqui simulem les batalles, sumem els punts y borrem els que perden.
+                            //batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+
                             //doBattlee();
-                            indexRival = phase.generaParelles(competitions, index,batalles,competidors);
+
+                            parelles = phase.generaParelles(competitions, index,batalles,competidors, indexRival);
                             batalla.sumaBatalla(batalla.getCurrentBattle());
 
                         }
