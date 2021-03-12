@@ -45,7 +45,7 @@ public class Batalla {
         this.tipusBatalla = tipusBatalla;
     }
 
-    public void GeneraTipusBatalla() {
+    public void generaTipusBatalla() {
         Random rn = new Random();
         int numero = rn.nextInt(3) + 1;
 
@@ -69,18 +69,14 @@ public class Batalla {
 
     }
 
-   /* public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
-        System.out.println(" ");
+    public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
+
         System.out.println("competidores Iniciales");
-        System.out.println(" ");
-        for (int l = 0; l < competidors.size(); l++){
-            System.out.println(competidors.get(l));
-        }
-        GeneraTipusBatalla();
+        System.out.println(competidors);
+        //generaTipusBatalla();
 
         //agafem les parelles
         for (int i = 0; i < parelles.length; i++) {
-
 
             int primer = generaPrimer();
             tema = theme.generaTema(batalles);
@@ -119,23 +115,19 @@ public class Batalla {
 
             }
 
-
-
             if (p1 > p2 ) {
-                System.out.println("ha guanyat " + rapper1);
 
                 for (int j = 0; j < competidors.size(); j++) {
                     if (competidors.get(j).equals(rapper2)) {
-                        System.out.println(("borramos a " + rapper2));
+
                         competidors.remove(j);
                     }
                 }
             }else if(p2 >= p1){
-                System.out.println("ha guanyat " +rapper2);
 
                 for (int j = 0; j < competidors.size(); j++) {
                     if (competidors.get(j).equals(rapper1)) {
-                        System.out.println(("borramos a " + rapper1));
+
                         competidors.remove(j);
                     }
                 }
@@ -143,23 +135,12 @@ public class Batalla {
 
 
         }
-        System.out.println(" ");
-        System.out.println("Lista de parejas");
-        System.out.println(" ");
-        for (int m = 0; m < parelles.length; m++) {
-            for (int j = 0; j < parelles[m].length; j++) {
-                System.out.print(parelles[m][j]+" ");
-            }
-            System.out.print("\n");
-        }
-        System.out.println(" ");
-        System.out.println("competidores Finales");
-        System.out.println(" ");
-        for (int l = 0; l < competidors.size(); l++){
-            System.out.println(competidors.get(l));
-        }
 
-    }*/
+        System.out.println("competidores Finales");
+        System.out.println(competidors);
+
+
+    }
 
     private double buscarimas(database.battles.Root batalles, int level) {
         double punts = 0.0;

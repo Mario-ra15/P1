@@ -40,24 +40,25 @@ public class Phase {
 
 
 
-    public String[][] generaParelles(Root competitions, int index,database.battles.Root batalles,LinkedList<String> competidors, int indexRival ) {
-        batalla.GeneraTipusBatalla();
-        int numero = 0 ;
+    public String[][] generaParelles(Root competitions, int index,database.battles.Root batalles,LinkedList<String> competidors ) {
+
+        int numero = index;
         String rival = "";
-        // si son imparells borra un en principi fnciona
-        if (competitions.getRappers().size() % 2 != 0) {
+        if (competidors.size()%2 != 0) { //Borrem en cas de que siguin imparells
             while (index == numero) {
-                Random rn = new Random();
-                int n = competidors.size() +1;
-                numero = rn.nextInt() % n;
+                numero = (int) (Math.random()*competidors.size() +1);
+                System.out.println(numero);
             }
             System.out.println(competidors.get(numero));
             competidors.remove(numero);
         }
 
         //Generem les parelles
+
         int nbatalles = competidors.size()/2;
+
         String parelles [][] = new String [nbatalles][2];
+
         //posible no funcionament
         //--------------------------------------------------------------------------------------------------------------------------------------
         for (int i = 0; i < competidors.size(); i++) {
@@ -68,31 +69,15 @@ public class Phase {
                 fila = (int) (Math.random()*nbatalles);
                 columna = (int) (Math.random()*2);
             }
-            parelles[fila][columna] = competitions.getRappers().get(i).getStageName();
+            parelles[fila][columna] = competidors.get(i);
         }
         //Busquem el nostre rival
 
-        for (int i = 0; i < parelles.length; i++) {
-            for (int j = 0; j < parelles[i].length; j++) {
-                if (parelles[i][j]==competitions.getRappers().get(numero).getStageName()){
-                    if(j==0){
-                        rival = parelles[i][1];
-                    }else {
-                        rival = parelles[i][0];
-                    }
-                }
-            }
-        }
+
 
         //--------------------------------------------------------------------------------------------------------------------------------
 
-        //busquem l index del rival
-        for (int i = 0; i < competitions.getRappers().size(); i++) {
-            if (competitions.getRappers().get(i).getStageName()== rival){
-                indexRival = i;
-            }
 
-        }
 
 
         return parelles;
@@ -100,6 +85,21 @@ public class Phase {
     public void bridgesb(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
         // Aqui simulem les batalles, sumem els punts y borrem els que perden.
         //batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+    }
+
+    public String buscarRival(String name, String[][]parelles ) {
+        //busquem l index del rival
+        String rival = "";
+        for (int i = 0; i < parelles.length; i++) {
+            for (int j = 0; j < parelles[i].length; j++) {
+
+                if(name.equals(parelles[i][j]) ){
+                    if(j == 0) rival = parelles[i][1];
+                    if(j==1) rival = parelles[i][0];
+                }
+            }
+        }
+        return rival;
     }
 
 }

@@ -79,16 +79,12 @@ public class Menu {
                                 System.out.println("Enter your artistic name:");
                                 artisticName = "";
                                 artisticName = ScannerInput.askString();
-                                index = controller.comprovaLogin(competitions, artisticName);
+                                index = controller.comprovaLogin(competitions, artisticName); //obtenim el id del nostre participant
                                 if (index != -1) {
                                     //omplim la llista de competirdors.
                                     for(int i = 0; i < competitions.getRappers().size(); i++ ){
-                                        competidors.add(competitions.getRappers().get(i).getStageName());
+                                        competidors.add(competitions.getRappers().get(i).getStageName()); //array dels competirdors
                                     }
-                                    System.out.println("hi ha "+ competidors.size());
-                                    //parelles = phase.generaParelles(competitions, index,batalles,competidors, indexRival);
-                                    //Entren sala
-                                    //indexRival = trobaRival(competitions, index) clase
                                     enterLobby(competitions, batalles, index, indexRival);
 
                                 } else {
@@ -109,17 +105,20 @@ public class Menu {
 
 
     private void enterLobby(Root competitions, database.battles.Root batalles, int index, int indexRival) {
-
+        String rival;
         String guanyador = null;
         boolean finalitzat = false;
-        batalla.GeneraTipusBatalla();
+        batalla.generaTipusBatalla(); //obtenim el tipus de la batlla
+        parelles = phase.generaParelles(competitions, index,batalles,competidors); //generem les parelles
+        rival = phase.buscarRival(artisticName, parelles); //busquem el nostre rival
+
         //aqui es simulen les batalles
 
 
         do {
             if (!finalitzat) {
                 System.out.println("------------------------------------------------------------");
-                System.out.println("Phase: " + phase.getCurrentPhase() + "/" + competitions.getCompetition().getPhase().size() + " | Score: " + competitions.getRappers().get(index).getScore() + " | Battle " + batalla.getCurrentBattle() + "/2: " + batalla.getTipusBatalla() + " | Rival: " + competitions.getRappers().get(indexRival).getStageName() + "");
+                System.out.println("Phase: " + phase.getCurrentPhase() + "/" + competitions.getCompetition().getPhase().size() + " | Score: " + competitions.getRappers().get(index).getScore() + " | Battle " + batalla.getCurrentBattle() + "/2: " + batalla.getTipusBatalla() + " | Rival: "+ rival);
                 System.out.println("------------------------------------------------------------");
                 System.out.println("\n1.Start the battle\n2.Show ranking\n3.Create profile\n4.Leave competition\n");
                 System.out.println("hi ha "+ competidors.size());
@@ -142,25 +141,36 @@ public class Menu {
 
                     //aqui generem la batalla i aixo
                     //aixo es per canviar de fase i de batalla
-                    System.out.println("skr");
+
                     if (!finalitzat) {
-                        if (phase.getCurrentPhase() < competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) {
+                        if (phase.getCurrentPhase() < competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 1
+                            //tornem a fer les parelles amb els competidors actuals
+                            System.out.println("batalla 2 fase 1");
+                               /* if(competidors.size()==1){
+                                    finalitzat = true;
+                                    guanyador = competidors.get(0);
+                                    System.out.println("has entrado al fn");
 
-                            phase.sumaPhase(phase.getCurrentPhase());
-                            batalla.setCurrentBattle(1);
+                                }else{*/
+                                parelles = phase.generaParelles(competitions, index,batalles,competidors);
+                                batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+                                phase.sumaPhase(phase.getCurrentPhase());
+                                batalla.setCurrentBattle(1);
+                                //}
 
 
-
-                        } else if (phase.getCurrentPhase() == competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) {
+                        } else if (phase.getCurrentPhase() == competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 2
+                            System.out.println("batalla 2 fase 2");
+                            guanyador = competidors.get(0);
                             finalitzat = true;
 
-                        } else {
+                        } else { //batalla 1 phase 1
+                            if (phase.getCurrentPhase() !=1)
+                            System.out.println("batalla 1 fase 1"); parelles = phase.generaParelles(competitions, index,batalles,competidors);
                             // Aqui simulem les batalles, sumem els punts y borrem els que perden.
-                            //batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+                            batalla.simulaBatalla(parelles,batalles,competitions,competidors);
 
                             //doBattlee();
-
-                            parelles = phase.generaParelles(competitions, index,batalles,competidors, indexRival);
                             batalla.sumaBatalla(batalla.getCurrentBattle());
 
                         }
