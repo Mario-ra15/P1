@@ -43,6 +43,7 @@ public class Phase {
     public String[][] generaParelles(int index,LinkedList<String> competidors ) {
 
         int numero ;
+        System.out.println(competidors.size());
         if (competidors.size()%2 != 0 && competidors.size() != 1 ) { //Borrem en cas de que siguin imparells
             // quan queda nomes 1 se prende la wea, abans estaba el +1 pero reventaba si sortia el size max mes 1
             numero = (int) (Math.random()*competidors.size() - 1);
@@ -75,10 +76,6 @@ public class Phase {
 
 
         return parelles;
-    }
-    public void bridgesb(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors){
-        // Aqui simulem les batalles, sumem els punts y borrem els que perden.
-        //batalla.simulaBatalla(parelles,batalles,competitions,competidors);
     }
 
     public String buscarRival(String name, String[][]parelles ) {

@@ -6,6 +6,11 @@ public class Controller {
 
     private String aux;
     private int opcio;
+    private String linia1;
+    private String linia2;
+    private String linia3;
+    private String linia4;
+    private String rima;
     private static final int MIN = 1;
     private static final int MAX = 2;
     private static final int MAX2 = 4;
@@ -66,5 +71,14 @@ public class Controller {
             }
         }
         return -1;
+    }
+
+    public String askForRima(){
+        linia1 = ScannerInput.askString();
+        linia2 = ScannerInput.askString();
+        linia3 = ScannerInput.askString();
+        linia4 = ScannerInput.askString();
+        rima = linia1+"\n"+linia2+"\n"+linia3+"\n"+linia4;
+        return rima;
     }
 }

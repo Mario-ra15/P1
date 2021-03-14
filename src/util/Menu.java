@@ -15,7 +15,6 @@ import java.util.function.ToLongFunction;
 public class Menu {
 
     private int index;
-    private int indexRival;
     private String[][] parelles;
 
 
@@ -40,6 +39,7 @@ public class Menu {
         System.out.println("Ends on " + competitions.getCompetition().getEndDate());
         System.out.println("Phases: " + competitions.getCompetition().getPhase().size());//maybe aqui es pot posar un phases.size
         System.out.println("Currently: " + competitions.getRappers().size() + " participants\n");
+
     }
 
     public void optionMenu(database.battles.Root batalles, Root competitions) throws ParseException {
@@ -85,7 +85,7 @@ public class Menu {
                                     for(int i = 0; i < competitions.getRappers().size(); i++ ){
                                         competidors.add(competitions.getRappers().get(i).getStageName()); //array dels competirdors
                                     }
-                                    enterLobby(competitions, batalles, index, indexRival);
+                                    enterLobby(competitions, batalles, index);
 
                                 } else {
                                     System.out.println("Yo'bro, there's no " + artisticName + " in ma' list.\n");
@@ -104,7 +104,7 @@ public class Menu {
     }
 
 
-    private void enterLobby(Root competitions, database.battles.Root batalles, int index, int indexRival) {
+    private void enterLobby(Root competitions, database.battles.Root batalles, int index) {
         String rival;
         String guanyador = null;
         boolean finalitzat = false;
@@ -139,45 +139,50 @@ public class Menu {
 
 
 
-                    //aqui generem la batalla i aixo
-                    //aixo es per canviar de fase i de batalla
-
                     if (!finalitzat) {
                         if (phase.getCurrentPhase() < competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 1
-                            //tornem a fer les parelles amb els competidors actuals
-                            System.out.println("batalla 2 fase 1");
 
 
-                                batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+                                batalla.simulaBatalla(parelles,batalles,competitions,competidors,artisticName);
+
+                                batalla.doBattle(batalles,competitions,competidors,artisticName,rival);
+
                                 phase.sumaPhase(phase.getCurrentPhase());
                                 batalla.setCurrentBattle(1);
                                 parelles = phase.generaParelles(index,competidors);
+                                batalla.generaTipusBatalla();
                                 rival = phase.buscarRival(artisticName, parelles);
 
 
 
                         } else if (phase.getCurrentPhase() == competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 2
-                            System.out.println("batalla 2 fase 2");
+                            //System.out.println("batalla 2 fase 2");
                             guanyador = competidors.get(0);
                             finalitzat = true;
 
                         } else { //batalla 1 phase 1
-                            if (phase.getCurrentPhase() !=1)
-                            System.out.println("batalla 1 fase 1");
+
 
                             // Aqui simulem les batalles, sumem els punts y borrem els que perden.
-                            batalla.simulaBatalla(parelles,batalles,competitions,competidors);
-                            if (competidors.size() == 1) {
+                            if (competidors.size() == 2) { //si arribem a la final nosaltres
+                                batalla.doBattle(batalles, competitions, competidors, artisticName, rival);
                                 finalitzat = true;
                                 guanyador = competidors.get(0);
-                            }else{
-                                parelles = phase.generaParelles(index,competidors);
-                                rival = phase.buscarRival(artisticName, parelles);
+                            } else { //mentre no sigui la final de la persona que juga
+                                batalla.simulaBatalla(parelles, batalles, competitions, competidors, artisticName);
+                                batalla.doBattle(batalles, competitions, competidors, artisticName, rival);
+                                if (competidors.size() == 1) { //si nomes queda 1
+                                    finalitzat = true;
+                                    guanyador = competidors.get(0);
+                                } else {
+                                    parelles = phase.generaParelles(index, competidors);
+                                    batalla.generaTipusBatalla();
+                                    rival = phase.buscarRival(artisticName, parelles);
+
+                                }
+                                batalla.sumaBatalla(batalla.getCurrentBattle());
 
                             }
-                            //doBattlee();
-                            batalla.sumaBatalla(batalla.getCurrentBattle());
-
                         }
 
                     } else {
@@ -185,7 +190,7 @@ public class Menu {
                     }
                     break;
                 case 2:
-                    showRanking(competitions, index);
+                    showRanking(competitions, artisticName);
                     break;
                 case 3:
                     //aixo es fa a la fase 3 i 4 jej
@@ -196,12 +201,13 @@ public class Menu {
         } while (!controller.exit2());
     }
 
-    private void showRanking(Root competitions, int index) { //miarar on anva si a rapper o a phase.
+    private void showRanking(Root competitions, String artisticName) { //miarar on anva si a rapper o a phase.
         LinkedList<Rapper> orderedRappers;
         orderedRappers = competitions.getRappers();
         orderedRappers.sort(Comparator.comparingDouble(Rapper::getScore)); //aixo no tinc ni idea de si funciona, lo veremos mas tarde
+        Collections.reverse(orderedRappers);
         for (int i = 0; i < orderedRappers.size(); i++) {
-            if (i == index) {
+            if (orderedRappers.get(i).getStageName().equals(artisticName)) {
                 System.out.println((i+1) + ". " + orderedRappers.get(i).getStageName() + " - " + orderedRappers.get(i).getScore() + " <-- You");
             } else {
                 System.out.println((i+1) + ". " + orderedRappers.get(i).getStageName() + " - " + orderedRappers.get(i).getScore());

@@ -24,7 +24,7 @@ public class Rhyme {
     private String frase2;
     private String frases3;
     private String frases4;
-
+    private String rima;
 
     public List<String> get1() {
         return _1;
@@ -63,6 +63,32 @@ public class Rhyme {
         if(terminacio3.equals(terminacio1) || terminacio3.equals(terminacio2) || terminacio3.equals(terminacio4)){ n ++;}
         if(terminacio4.equals(terminacio1) || terminacio4.equals(terminacio2) || terminacio4.equals(terminacio3)){ n ++;}
         return n;
+    }
+    public String getRima(database.battles.Root batalles, int level, int ronda,int tema){
+        if(level == 1) {
+            if(batalles.getThemes().get(tema).getRhymes().get(0).get1().size() == 1){
+                if(ronda == 1) rima = (batalles.getThemes().get(tema).getRhymes().get(0).get1().get(0));
+                if (ronda == 2) rima = "nada";
+            }else if(batalles.getThemes().get(tema).getRhymes().get(0).get1().size()== 0) {
+                rima = "nada";
+            }else {
+                if(ronda == 1) rima = (batalles.getThemes().get(tema).getRhymes().get(0).get1().get(0));
+                if(ronda == 2) rima = (batalles.getThemes().get(tema).getRhymes().get(0).get1().get(1));
+            }
+        }else{
+            if(batalles.getThemes().get(tema).getRhymes().get(0).get2().size() == 1) {
+                if(ronda == 1) rima = (batalles.getThemes().get(tema).getRhymes().get(0).get2().get(0));
+                if (ronda == 2) rima = "nada";
+
+            }else if(batalles.getThemes().get(tema).getRhymes().get(0).get2().size() == 0) {
+                rima = "nada";
+            }else {
+                if(ronda == 1) rima = (batalles.getThemes().get(tema).getRhymes().get(0).get2().get(0));
+                if(ronda == 2) rima = (batalles.getThemes().get(tema).getRhymes().get(0).get2().get(1));
+            }
+        }
+
+        return rima;
     }
 
 }
