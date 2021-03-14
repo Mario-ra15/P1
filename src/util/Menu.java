@@ -109,7 +109,7 @@ public class Menu {
         String guanyador = null;
         boolean finalitzat = false;
         batalla.generaTipusBatalla(); //obtenim el tipus de la batlla
-        parelles = phase.generaParelles(competitions, index,batalles,competidors); //generem les parelles
+        parelles = phase.generaParelles(index,competidors); //generem les parelles
         rival = phase.buscarRival(artisticName, parelles); //busquem el nostre rival
 
         //aqui es simulen les batalles
@@ -146,17 +146,14 @@ public class Menu {
                         if (phase.getCurrentPhase() < competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 1
                             //tornem a fer les parelles amb els competidors actuals
                             System.out.println("batalla 2 fase 1");
-                               /* if(competidors.size()==1){
-                                    finalitzat = true;
-                                    guanyador = competidors.get(0);
-                                    System.out.println("has entrado al fn");
 
-                                }else{*/
-                                parelles = phase.generaParelles(competitions, index,batalles,competidors);
+
                                 batalla.simulaBatalla(parelles,batalles,competitions,competidors);
                                 phase.sumaPhase(phase.getCurrentPhase());
                                 batalla.setCurrentBattle(1);
-                                //}
+                                parelles = phase.generaParelles(index,competidors);
+                                rival = phase.buscarRival(artisticName, parelles);
+
 
 
                         } else if (phase.getCurrentPhase() == competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 2
@@ -166,10 +163,18 @@ public class Menu {
 
                         } else { //batalla 1 phase 1
                             if (phase.getCurrentPhase() !=1)
-                            System.out.println("batalla 1 fase 1"); parelles = phase.generaParelles(competitions, index,batalles,competidors);
+                            System.out.println("batalla 1 fase 1");
+
                             // Aqui simulem les batalles, sumem els punts y borrem els que perden.
                             batalla.simulaBatalla(parelles,batalles,competitions,competidors);
+                            if (competidors.size() == 1) {
+                                finalitzat = true;
+                                guanyador = competidors.get(0);
+                            }else{
+                                parelles = phase.generaParelles(index,competidors);
+                                rival = phase.buscarRival(artisticName, parelles);
 
+                            }
                             //doBattlee();
                             batalla.sumaBatalla(batalla.getCurrentBattle());
 

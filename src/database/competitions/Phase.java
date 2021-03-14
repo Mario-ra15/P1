@@ -40,16 +40,17 @@ public class Phase {
 
 
 
-    public String[][] generaParelles(Root competitions, int index,database.battles.Root batalles,LinkedList<String> competidors ) {
+    public String[][] generaParelles(int index,LinkedList<String> competidors ) {
 
-        int numero = index;
-        String rival = "";
-        if (competidors.size()%2 != 0) { //Borrem en cas de que siguin imparells
-            while (index == numero) {
-                numero = (int) (Math.random()*competidors.size() +1);
-                System.out.println(numero);
+        int numero ;
+        if (competidors.size()%2 != 0 && competidors.size() != 1 ) { //Borrem en cas de que siguin imparells
+            // quan queda nomes 1 se prende la wea, abans estaba el +1 pero reventaba si sortia el size max mes 1
+            numero = (int) (Math.random()*competidors.size() - 1);
+            while (index == numero ) { //fa bucle infinit aqui
+                numero = (int) (Math.random()*competidors.size() - 1);
+                System.out.println("ha tocat el " + numero);
             }
-            System.out.println(competidors.get(numero));
+            System.out.println("aixi que borrem el " + competidors.get(numero));
             competidors.remove(numero);
         }
 
@@ -59,8 +60,8 @@ public class Phase {
 
         String parelles [][] = new String [nbatalles][2];
 
-        //posible no funcionament
-        //--------------------------------------------------------------------------------------------------------------------------------------
+
+
         for (int i = 0; i < competidors.size(); i++) {
             // recorrerem el vector, per a cada posicio generem una posicio random de la matriu i si esta buit s omple
             int fila = (int) (Math.random()*nbatalles);
@@ -71,13 +72,6 @@ public class Phase {
             }
             parelles[fila][columna] = competidors.get(i);
         }
-        //Busquem el nostre rival
-
-
-
-        //--------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
         return parelles;
@@ -99,6 +93,7 @@ public class Phase {
                 }
             }
         }
+        if (rival == "") rival = "Bro has perdido";
         return rival;
     }
 

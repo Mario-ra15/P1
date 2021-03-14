@@ -73,6 +73,12 @@ public class Batalla {
 
         System.out.println("competidores Iniciales");
         System.out.println(competidors);
+        /*for (int i = 0; i < parelles.length; i++) {
+            for (int j = 0; j < parelles[i].length; j++) {
+                if (j == 0) System.out.print(parelles[i][j] + " - ");
+                if (j ==1 ) System.out.println(parelles[i][j]);
+            }
+        }*/
         //generaTipusBatalla();
 
         //agafem les parelles
