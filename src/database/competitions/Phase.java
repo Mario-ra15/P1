@@ -45,9 +45,9 @@ public class Phase {
         int numero ;
         System.out.println(competidors.size());
         if (competidors.size()%2 != 0 && competidors.size() != 1 ) { //Borrem en cas de que siguin imparells
-            // quan queda nomes 1 se prende la wea, abans estaba el +1 pero reventaba si sortia el size max mes 1
+
             numero = (int) (Math.random()*competidors.size() - 1);
-            while (index == numero ) { //fa bucle infinit aqui
+            while (index == numero ) {
                 numero = (int) (Math.random()*competidors.size() - 1);
                 System.out.println("ha tocat el " + numero);
             }
@@ -92,6 +92,16 @@ public class Phase {
         }
         if (rival == "") rival = "Bro has perdido";
         return rival;
+    }
+
+    public boolean comprovaUsuari (LinkedList<String> competidors, String artisticName){
+        boolean eliminat = false;
+        for(int i = 0; i < competidors.size(); i++){
+            if (competidors.get(i).equals(artisticName)) {
+                eliminat = true;
+            }
+        }
+        return eliminat;
     }
 
 }

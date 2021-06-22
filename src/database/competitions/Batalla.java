@@ -62,17 +62,6 @@ public class Batalla {
         }else{
             tipusBatalla = "escrita";
         }
-
-        //nomes retorna escrita sigui el numero que sigui
-        /*switch (numero) {
-            case 1:
-                tipusBatalla = "sangre";
-            case 2:
-                tipusBatalla = "acapella";
-            case 3:
-                tipusBatalla = "escrita";
-        }*/
-
     }
 
     public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors,String name){
@@ -86,7 +75,7 @@ public class Batalla {
 
         for (int i = 0; i < parelles.length; i++) { //Recorrem la matriu per filas
             if(parelles[i][0].equals(name) || parelles[i][1].equals(name)) { //saltem la nostra batlla
-
+                System.out.println("la meva batalla no es simula");
             }else{
                 tema = theme.generaTema(batalles);
                 n = theme.postema(batalles,tema);
@@ -116,7 +105,6 @@ public class Batalla {
                 actualitzaCompetidors(rapper1,rapper2,p1,p2,competidors);
             }
         }
-
     }
 
     private double buscarimas(database.battles.Root batalles, int level) {

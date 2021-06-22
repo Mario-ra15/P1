@@ -74,10 +74,31 @@ public class Controller {
     }
 
     public String askForRima(){
+
         linia1 = ScannerInput.askString();
+        while (linia1.length() < 4){
+            System.out.println("ese las barras han de ser de almenys 4 caracters bro,torna a repetirla");
+            linia1 = ScannerInput.askString();
+        }
+
         linia2 = ScannerInput.askString();
+        while (linia2.length() < 4){
+            System.out.println("ese las barras han de ser de almenys 4 caracters bro,torna a repetirla");
+            linia2 = ScannerInput.askString();
+        }
+
         linia3 = ScannerInput.askString();
+        while (linia3.length() < 4){
+            System.out.println("ese las barras han de ser de almenys 4 caracters bro,torna a repertirla");
+            linia3 = ScannerInput.askString();
+        }
+
         linia4 = ScannerInput.askString();
+        while (linia4.length() < 4){
+            System.out.println("ese las barras han de ser de almenys 4 caracters bro,torna a repetirla");
+            linia4 = ScannerInput.askString();
+        }
+
         rima = linia1+"\n"+linia2+"\n"+linia3+"\n"+linia4;
         return rima;
     }

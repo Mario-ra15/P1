@@ -108,6 +108,7 @@ public class Menu {
         String rival;
         String guanyador = null;
         boolean finalitzat = false;
+        boolean eliminat;
         batalla.generaTipusBatalla(); //obtenim el tipus de la batlla
         parelles = phase.generaParelles(index,competidors); //generem les parelles
         rival = phase.buscarRival(artisticName, parelles); //busquem el nostre rival
@@ -136,27 +137,23 @@ public class Menu {
             controller.askForOption();
             switch (controller.getOption()) {
                 case 1:
+                   eliminat = phase.comprovaUsuari(competidors,artisticName);
 
 
 
                     if (!finalitzat) {
                         if (phase.getCurrentPhase() < competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 1
 
-
                                 batalla.simulaBatalla(parelles,batalles,competitions,competidors,artisticName);
-
-                                batalla.doBattle(batalles,competitions,competidors,artisticName,rival);
-
+                                if(eliminat) batalla.doBattle(batalles, competitions, competidors, artisticName, rival);//Aqui poner si hace batalla solo si esta la persona
                                 phase.sumaPhase(phase.getCurrentPhase());
                                 batalla.setCurrentBattle(1);
                                 parelles = phase.generaParelles(index,competidors);
                                 batalla.generaTipusBatalla();
                                 rival = phase.buscarRival(artisticName, parelles);
 
-
-
                         } else if (phase.getCurrentPhase() == competitions.getCompetition().getPhase().size() && batalla.getCurrentBattle() == 2) { //batalla 2 phase 2
-                            //System.out.println("batalla 2 fase 2");
+
                             guanyador = competidors.get(0);
                             finalitzat = true;
 
@@ -165,23 +162,35 @@ public class Menu {
 
                             // Aqui simulem les batalles, sumem els punts y borrem els que perden.
                             if (competidors.size() == 2) { //si arribem a la final nosaltres
-                                batalla.doBattle(batalles, competitions, competidors, artisticName, rival);
+
+                                if (eliminat){
+                                    batalla.doBattle(batalles, competitions, competidors, artisticName, rival);
+                                } else {
+                                    batalla.simulaBatalla(parelles, batalles, competitions, competidors, artisticName);
+                                }
+
                                 finalitzat = true;
                                 guanyador = competidors.get(0);
+
                             } else { //mentre no sigui la final de la persona que juga
+
                                 batalla.simulaBatalla(parelles, batalles, competitions, competidors, artisticName);
-                                batalla.doBattle(batalles, competitions, competidors, artisticName, rival);
+                                if(eliminat) batalla.doBattle(batalles, competitions, competidors, artisticName, rival);
+
+
                                 if (competidors.size() == 1) { //si nomes queda 1
+
                                     finalitzat = true;
                                     guanyador = competidors.get(0);
+
                                 } else {
+
                                     parelles = phase.generaParelles(index, competidors);
                                     batalla.generaTipusBatalla();
                                     rival = phase.buscarRival(artisticName, parelles);
 
                                 }
                                 batalla.sumaBatalla(batalla.getCurrentBattle());
-
                             }
                         }
 

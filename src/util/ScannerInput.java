@@ -10,6 +10,7 @@ public class ScannerInput {
      * @return la String llegida
      */
     public static String askString(){
+
         return in.nextLine();
     }
 
