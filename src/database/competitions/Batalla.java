@@ -9,6 +9,12 @@ import database.competitions.subClases.*;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Esta clase gaurda toda la información de las batallas y hace los calculos necesarios para hacer la batalla
+ *
+ * Los metodos reciven la información del menu del transcurso de la competición y envia la información a las distintas clases
+ * para hacer la batalla
+ */
 public class Batalla {
     private String tipusBatalla;
     private int currentBattle = 1;
@@ -51,6 +57,9 @@ public class Batalla {
         this.tipusBatalla = tipusBatalla;
     }
 
+    /**
+     * Genera una de les tres batalles aletoriament
+     */
     public void generaTipusBatalla() {
         Random rn = new Random();
         int numero = rn.nextInt(3) + 1;
@@ -64,18 +73,26 @@ public class Batalla {
         }
     }
 
+    /**
+     * Esta clase nos simula la batalla cuando no somos los participantes
+     * @param parelles Las parejas que harán las batallas en forma de matriz
+     * @param batalles Información de las batllas
+     * @param competitions Información de la competición
+     * @param competidors Una lista de los competidores actuales
+     * @param name El nombre de la persona ganadora.
+     */
     public void simulaBatalla(String[][] parelles, database.battles.Root batalles, Root competitions, LinkedList<String> competidors,String name){
 
-        System.out.println("hi han\n" + competidors);
+        //System.out.println("hi han\n" + competidors);
         //agafem les parelles
-        for (int i = 0; i < parelles.length; i++) {
-            System.out.println(parelles[i][0] + " - " + parelles[i][1]);
+        //for (int i = 0; i < parelles.length; i++) {
+          //  System.out.println(parelles[i][0] + " - " + parelles[i][1]);
 
-        }
+        //}
 
         for (int i = 0; i < parelles.length; i++) { //Recorrem la matriu per filas
             if(parelles[i][0].equals(name) || parelles[i][1].equals(name)) { //saltem la nostra batlla
-                System.out.println("la meva batalla no es simula");
+
             }else{
                 tema = theme.generaTema(batalles);
                 n = theme.postema(batalles,tema);
@@ -107,6 +124,13 @@ public class Batalla {
         }
     }
 
+
+    /**
+     * selecciones las rimas y calcula su puntuación
+     * @param batalles Informació de les batalles
+     * @param level nivel del participante
+     * @return puntuación de la rima
+     */
     private double buscarimas(database.battles.Root batalles, int level) {
         double punts;
         if(level == 1) {
@@ -133,10 +157,21 @@ public class Batalla {
 
     }
 
+    /**
+     * Genera un número para seleccionar el primero
+     * @return el número que ha salido
+     */
     private int generaPrimer(){
         int primer = (int) (Math.random()*2);
         return primer;
     }
+
+    /**
+     * calcula el número de rimas correctas
+     * @param rima1 La primera intervención
+     * @param rima2 La segunda intervención
+     * @return el numero de rimas correctas
+     */
 
     public int calculaRima(String rima1, String rima2){
         //separem la rima en 4 frases
@@ -149,6 +184,16 @@ public class Batalla {
         return (n1+n2);
     }
 
+
+    /**
+     *
+     * Hace todo el proceso de la batallas del participante
+     * @param batalles Información de las batallas
+     * @param competitions Información de las competiciones
+     * @param competidors Lista de los competidores actuales
+     * @param name Nombre de nuestro participante
+     * @param rival nombre del rival al que enfrentamos
+     */
 
     public void doBattle(database.battles.Root batalles, Root competitions, LinkedList<String> competidors,String name, String rival) {
         tema = theme.generaTema(batalles); //generem tema y la seva posicio
@@ -212,10 +257,17 @@ public class Batalla {
         actualitzaPunts(rival,name,punts1,punts2,competitions);
         actualitzaCompetidors(rival,name,punts1,punts2,competidors);
 
-        System.out.println("han acabat\n" + competidors);
+       // System.out.println("han acabat\n" + competidors);
 
 
     }
+
+    /**
+     * Suma los puntos
+     * @param punts número de rimas correctas
+     * @param tipusBatalla tipo de batalla que seha hecho
+     * @return el numero de puntos obtenido en esta batalla
+     */
 
     private double sumaPunts(int punts, String tipusBatalla){
         double puntsFinals=0;
@@ -224,6 +276,15 @@ public class Batalla {
         if(tipusBatalla.equals("acapella")){puntsFinals = ba.calculaPunts(punts);}
         return puntsFinals;
     }
+
+    /**
+     * Actualiza los puntos en el ranking de cada personaje
+     * @param rapper1 nombre del rapero1
+     * @param rapper2 nombre del rapero2
+     * @param p1 puntos del rapero1
+     * @param p2 puntos del rapero2
+     * @param competitions Información de la competición
+     */
 
     private void actualitzaPunts(String rapper1,String rapper2, double p1, double p2 ,Root competitions){
         for (int n = 0; n < competitions.getRappers().size(); n++ ){
@@ -236,6 +297,15 @@ public class Batalla {
         }
 
     }
+
+    /**
+     * Mira quin dels dos a guanyat y borra el competidor que ha perdut de la llista
+     * @param rapper1 nom del rapero1
+     * @param rapper2 nom del repero2
+     * @param p1 puntos del rapero1
+     * @param p2 puntos del rapero2
+     * @param competidors lista de los competidores actuales
+     */
     private void actualitzaCompetidors(String rapper1,String rapper2,double p1, double p2,LinkedList<String> competidors){
 
         if (p1 > p2 ) {

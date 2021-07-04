@@ -6,6 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * En esta clase guardamos las rimas predeterminadas de los participantes y tambien nos permite calcular el valor de las riamas.
+ *
+ *
+ * Te els atributs on separem les dos rimes en dos atributos diferentes, también tiene tiene el metodo que recibimos de
+ * batalla la información y abtenemos las riams indicadas.
+ */
 public class Rhyme {
 
     @SerializedName("1")
@@ -45,6 +53,12 @@ public class Rhyme {
         this._2 = _2;
     }
 
+    /**
+     * Recive la rima y la separa en terminaciones, y calcula el número de terminaciones correctas.
+     * @param rima la frase que diu el participant
+     * @return el número de rimes correctes
+     */
+
     public int calculaRima(String rima){
         int n = 0;
         String[] frase = rima.split("\n");
@@ -64,6 +78,16 @@ public class Rhyme {
         if(terminacio4.equals(terminacio1) || terminacio4.equals(terminacio2) || terminacio4.equals(terminacio3)){ n ++;}
         return n;
     }
+
+    /**
+     * Método que obtiene la rima del personaje indicado
+     * @param batalles La inforamción de las batallas
+     * @param level el nivel del personaje
+     * @param ronda la ronda de la batalla a la que van
+     * @param tema de quin tema es la batalla
+     * @return la rima deseada
+     */
+
     public String getRima(database.battles.Root batalles, int level, int ronda,int tema){
         if(level == 1) {
             if(batalles.getThemes().get(tema).getRhymes().get(0).get1().size() == 1){

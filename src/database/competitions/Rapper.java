@@ -1,5 +1,8 @@
 package database.competitions;
 
+/**
+ * Guarda la información que obtenemos del json de cada rapper
+ */
 public class Rapper {
     private String realName;
     private String stageName;

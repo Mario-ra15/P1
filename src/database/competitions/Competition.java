@@ -5,6 +5,9 @@ import Util.ScannerInput;
 import java.util.Date;
 import java.util.LinkedList;
 
+/**
+ * Guardem tota la informació de la competició
+ */
 public class Competition {
     private String name;
     private Date startDate;
@@ -57,6 +60,10 @@ public class Competition {
         return artisticName;
     }
 
+    /**
+     * interactua amb el usuari per registrarse a la competició
+     * @param competitions La informació de la competicio
+     */
     public void registre(Root competitions){
         System.out.println("-----------------------------------------");
         System.out.println("Please, enter your personal information:");

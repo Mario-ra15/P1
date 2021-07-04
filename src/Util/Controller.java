@@ -2,6 +2,9 @@ package Util;
 
 import database.competitions.Root;
 
+/**
+ * Esta clase nos permite interactuar con el usuario
+ */
 public class Controller {
 
     private String aux;
@@ -73,6 +76,10 @@ public class Controller {
         return -1;
     }
 
+    /**
+     * Comprueba que la rima tenga almenos 4 letras para poder calcular la rima
+     * @return Calcula la rima
+     */
     public String askForRima(){
 
         linia1 = ScannerInput.askString();

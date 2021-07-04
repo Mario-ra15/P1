@@ -5,6 +5,11 @@ import database.battles.Theme;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Guardamos la información referente a la phase,
+ *
+ * Los metodo rebien información de la competición y nos perimten hacer las batallas
+ */
 public class Phase {
     private double budget;
     private String country;
@@ -39,11 +44,16 @@ public class Phase {
     }
 
 
-
+    /**
+     * Genera una matriz de dos columnas para saber los emparejamientos
+     * @param index posición de nuestro competidor
+     * @param competidors lista de los competidores actuales
+     * @return una matriz de X filas por 2 columnas para los enfrentamientos
+     */
     public String[][] generaParelles(int index,LinkedList<String> competidors ) {
 
         int numero ;
-        System.out.println(competidors.size());
+
         if (competidors.size()%2 != 0 && competidors.size() != 1 ) { //Borrem en cas de que siguin imparells
 
             numero = (int) (Math.random()*competidors.size() - 1);
@@ -78,6 +88,13 @@ public class Phase {
         return parelles;
     }
 
+
+    /**
+     * Busca el rival de nuestro participante en la lista de las parejas
+     * @param name nombre de nuestro participante
+     * @param parelles lista de las parejas para esta batalla
+     * @return nombre del rival
+     */
     public String buscarRival(String name, String[][]parelles ) {
         //busquem l index del rival
         String rival = "";
@@ -94,6 +111,12 @@ public class Phase {
         return rival;
     }
 
+    /**
+     * Comprueva si nuestro personaje esta eliminado
+     * @param competidors lista de los competidores
+     * @param artisticName nombre del competidor
+     * @return BoOlean que indica si esta o no
+     */
     public boolean comprovaUsuari (LinkedList<String> competidors, String artisticName){
         boolean eliminat = false;
         for(int i = 0; i < competidors.size(); i++){

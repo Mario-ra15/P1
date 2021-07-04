@@ -5,6 +5,9 @@ import database.competitions.Rapper;
 
 import java.util.LinkedList;
 
+/**
+ * en esta clase podemos acceder a la información sobre la competición
+ */
 public class Root {
     private Competition competition;
     private LinkedList<String> countries;

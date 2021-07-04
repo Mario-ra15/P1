@@ -30,7 +30,11 @@ public class Menu {
     Theme theme = new Theme();
     LinkedList<String> competidors = new LinkedList<String>();
 
-
+    /**
+     * Printa el primer menu que trobem
+     * @param competitions Inforamción de la competición
+     * @throws ParseException
+     */
     public void printMenu(Root competitions) throws ParseException {
         System.out.println(" ");
         SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
@@ -42,6 +46,12 @@ public class Menu {
 
     }
 
+    /**
+     * Menu que mira en que fase de la competición nos encontramos
+     * @param batalles información de las batallas
+     * @param competitions información de las competiciones
+     * @throws ParseException
+     */
     public void optionMenu(database.battles.Root batalles, Root competitions) throws ParseException {
         printMenu(competitions);
         do {
@@ -103,7 +113,12 @@ public class Menu {
         } while(!controller.exit());
     }
 
-
+    /**
+     * Menu donde se hace toda la competición
+     * @param competitions Información de los competidores
+     * @param batalles Información de las batallas
+     * @param index Posición de nuestro participante
+     */
     private void enterLobby(Root competitions, database.battles.Root batalles, int index) {
         String rival;
         String guanyador = null;
@@ -210,6 +225,11 @@ public class Menu {
         } while (!controller.exit2());
     }
 
+    /**
+     * Nos muestra por pantalla el ranking de los participantes
+     * @param competitions información de los competidores
+     * @param artisticName nombre de nuestro participante
+     */
     private void showRanking(Root competitions, String artisticName) { //miarar on anva si a rapper o a phase.
         LinkedList<Rapper> orderedRappers;
         orderedRappers = competitions.getRappers();

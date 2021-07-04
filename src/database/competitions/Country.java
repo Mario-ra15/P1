@@ -1,5 +1,8 @@
 package database.competitions;
 
+/**
+ * Tenim la informació del pais on es fa la batalla
+ */
 public class Country {
     private String name;
 
