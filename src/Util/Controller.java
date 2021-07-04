@@ -65,7 +65,10 @@ public class Controller {
 
 
     /**
-     * demana el nom del artista y comprova que existeixi.
+     * Comprueba si el nombre artistico existe
+     * @param competitions información de la competicion
+     * @param artisticName nombre a comprovar
+     * @return boolean que indica si esta o no.
      */
     public int comprovaLogin(Root competitions, String artisticName) {
         for(int i = 0; i < competitions.getRappers().size(); i++){
@@ -74,6 +77,27 @@ public class Controller {
             }
         }
         return -1;
+    }
+
+    /**
+     * Compureba si el nombre del usuario que quiere mostrar existe
+     * @param competitions información de los competidores
+     * @param name nombre que buscamos
+     * @return indica su posicion y -1 si no existe
+     */
+    public int comprovaUsuari(Root competitions, String name){
+        for(int i = 0; i < competitions.getRappers().size(); i++){
+            if (competitions.getRappers().get(i).getStageName().equals(name)) {
+                return i;
+            }
+        }
+        for(int i = 0; i < competitions.getRappers().size(); i++){
+            if (competitions.getRappers().get(i).getRealName().equals(name)) {
+                return i;
+            }
+        }
+        return -1;
+
     }
 
     /**

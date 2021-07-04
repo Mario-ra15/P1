@@ -1,4 +1,5 @@
 package Util;
+import Api.Connexio;
 import database.battles.Theme;
 import database.competitions.*;
 
@@ -15,25 +16,26 @@ import java.util.function.ToLongFunction;
 public class Menu {
 
     private int index;
+    private int indexShow;
     private String[][] parelles;
-
-
-
+    private String pais;
     private String artisticName;
-
+    private String artisticNameShow;
     private String state = null;
-    Controller controller = new Controller();
-    Rapper rapper = new Rapper();
-    Phase phase = new Phase();
-    Batalla batalla = new Batalla();
-    Competition competition = new Competition();
-    Theme theme = new Theme();
-    LinkedList<String> competidors = new LinkedList<String>();
+
+    private Controller controller = new Controller();
+    private Rapper rapper = new Rapper();
+    private Phase phase = new Phase();
+    private Batalla batalla = new Batalla();
+    private Competition competition = new Competition();
+    private Theme theme = new Theme();
+    private Connexio connexio = new Connexio();
+    private LinkedList<String> competidors = new LinkedList<String>();
 
     /**
      * Printa el primer menu que trobem
      * @param competitions Inforamción de la competición
-     * @throws ParseException
+     * @throws ParseException exception
      */
     public void printMenu(Root competitions) throws ParseException {
         System.out.println(" ");
@@ -50,7 +52,7 @@ public class Menu {
      * Menu que mira en que fase de la competición nos encontramos
      * @param batalles información de las batallas
      * @param competitions información de las competiciones
-     * @throws ParseException
+     * @throws ParseException exception
      */
     public void optionMenu(database.battles.Root batalles, Root competitions) throws ParseException {
         printMenu(competitions);
@@ -217,7 +219,20 @@ public class Menu {
                     showRanking(competitions, artisticName);
                     break;
                 case 3:
-                    //aixo es fa a la fase 3 i 4 jej
+                    System.out.println("Enter the name of the rapper:");
+                    artisticNameShow = "";
+                    artisticNameShow = ScannerInput.askString();
+                    indexShow = controller.comprovaUsuari(competitions, artisticNameShow); //obtenim el id del nostre participant
+                    if (indexShow != -1) {
+                        //Aqiu entre perque existeix el usuari
+
+                       pais = competitions.getRappers().get(indexShow).getNationality();
+                        System.out.printf("\nGetting information about their country of origin (%s)...\n\n", pais);
+
+
+                    } else {
+                        System.out.println("Yo'bro, there's no " + artisticNameShow + " in ma' list.\n");
+                    }
                     break;
                 case 4:
                     break;
