@@ -61,7 +61,7 @@ public class Phase {
                 numero = (int) (Math.random()*competidors.size() - 1);
                 System.out.println("ha tocat el " + numero);
             }
-            System.out.println("aixi que borrem el " + competidors.get(numero));
+            System.out.println("Com son imparells aleatoriament borrem " + competidors.get(numero));
             competidors.remove(numero);
         }
 

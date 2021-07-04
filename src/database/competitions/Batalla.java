@@ -187,7 +187,7 @@ public class Batalla {
 
     /**
      *
-     * Hace todo el proceso de la batallas del participante
+     * hace el proceso del participante para la batalla
      * @param batalles Información de las batallas
      * @param competitions Información de las competiciones
      * @param competidors Lista de los competidores actuales
@@ -252,8 +252,10 @@ public class Batalla {
 
 
 
-        System.out.println(punts1 + "puntos de " + rival);
-        System.out.println(punts2 + "puntos de " + name);
+        System.out.println(punts1 + " puntos de " + rival);
+        System.out.println(punts2 + " puntos de " + name);
+
+
         actualitzaPunts(rival,name,punts1,punts2,competitions);
         actualitzaCompetidors(rival,name,punts1,punts2,competidors);
 
